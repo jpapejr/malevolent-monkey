@@ -11,7 +11,7 @@ for (( c=1; c<=$TTL; c++ )); do
         DIV=$(($COUNT+1))
         R=$(($RANDOM%$DIV))
 
-        TARGET=$(kubectl get pods -n kube-system --insecure-skip-tls-verify=true --token $TOKEN --server $APISERVER -o jsonpath="{.items[$R].metadata.name}")
+        TARGET=$(kubectl get pods -n $NAMESPACE --insecure-skip-tls-verify=true --token $TOKEN --server $APISERVER -o jsonpath="{.items[$R].metadata.name}")
         echo "$(date) Starting cycle $c " 
         echo "$(date) Selected resource -> $TARGET for $ACTION"
         echo "$(date) $(kubectl delete $TARGETRESOURCE $TARGET -n $NAMESPACE --insecure-skip-tls-verify=true --token $TOKEN --server $APISERVER) "
