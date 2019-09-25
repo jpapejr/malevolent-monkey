@@ -19,7 +19,7 @@ jobs:
     - name: Push the image github
       run: docker push docker.pkg.github.com/jpapejr/malevolent-monkey/malevolent-monkey:${{github.sha}}
     - name: Authenticate to docker.io
-      run: docker login docker.pkg.github.com --username jpapejr --password ${{secrets.DOCKER_PAT}}
+      run: docker login docker.io --username jpapejr --password ${{secrets.DOCKER_PAT}}
     - name: Tag docker.io image
       run: docker tag docker.pkg.github.com/jpapejr/malevolent-monkey/malevolent-monkey:${{github.sha}} jpapejr/malevolent-monkey:${{github.sha}}
     - name: Push the image to docker.io
