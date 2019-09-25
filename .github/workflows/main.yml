@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build the image
+      run: docker build -t docker.pkg.github.com/jpapejr/malevolent-monkey/malevolent-monkey:${{github.sha}} --label version="${{github.ref}}" --label builtby="github_actions" .
+    - name: Authenticate to Github Package Registry 
+      run: docker login docker.pkg.github.com --username jpapejr --password ${{secrets.GITHUB_PAT}}
+    - name: Push the image github
+      run: docker push docker.pkg.github.com/jpapejr/malevolent-monkey/malevolent-monkey:${{github.sha}}
+    - name: Authenticate to docker.io
+      run: docker login docker.pkg.github.com --username jpapejr --password ${{secrets.DOCKER_PAT}}
+    - name: Tag docker.io image
+      run: docker tag docker.pkg.github.com/jpapejr/malevolent-monkey/malevolent-monkey:${{github.sha}} jpapejr/malevolent-monkey:${{github.sha}}
+    - name: Push the image to docker.io
+      run: docker push jpapejr/malevolent-monkey:${{github.sha}}
