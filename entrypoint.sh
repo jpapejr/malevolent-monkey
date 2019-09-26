@@ -1,5 +1,14 @@
 #!/bin/bash
 echo "$(date) Booting and using $APISERVER for $TTL cycles of $INTERVAL seconds"
+
+if [ ! -f /var/run/secrets/kubernetes.io/serviceaccount/token ]; then
+        echo "$(date) Detected Kubernetes environment, using mounted service account token"
+        TOKEN=$TOKEN
+else
+        echo "$(date) Using provided token"
+        TOKEN=`cat /var/run/secrets/kubernetes.io/serviceaccount/token`
+fi
+
 RESOURCES=$(kubectl get $TARGETRESOURCE -n $NAMESPACE --insecure-skip-tls-verify=true --token $TOKEN --server $APISERVER | grep -v NAME | cut -d" " -f1)
 COUNT=0
 
