@@ -7,7 +7,7 @@ for r in $RESOURCES; do
         COUNT=$(($COUNT+1))
 done
 
-for (( c=1; c<=$TTL; c++ )); do 
+for (( c=0; c<$TTL; c++ )); do 
         DIV=$(($COUNT+1))
         R=$(($RANDOM%$DIV))
 
