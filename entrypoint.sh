@@ -12,7 +12,7 @@ for (( c=0; c<$TTL; c++ )); do
         R=$(($RANDOM%$DIV))
 
         TARGET=$(kubectl get pods -n $NAMESPACE --insecure-skip-tls-verify=true --token $TOKEN --server $APISERVER -o jsonpath="{.items[$R].metadata.name}")
-        echo "$(date) Starting cycle $c " 
+        echo "$(date) Starting cycle $((c+1)) " 
         echo "$(date) Selected resource -> $TARGET for $ACTION"
         echo "$(date) $(kubectl delete $TARGETRESOURCE $TARGET -n $NAMESPACE --insecure-skip-tls-verify=true --token $TOKEN --server $APISERVER) "
         echo "$(date) Sleeping $INTERVAL seconds..." 
