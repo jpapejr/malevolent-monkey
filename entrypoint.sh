@@ -17,7 +17,7 @@ for r in $RESOURCES; do
 done
 
 for (( c=0; c<$TTL; c++ )); do 
-        DIV=$(($COUNT+1))
+        DIV=$(($COUNT))
         R=$(($RANDOM%$DIV))
 
         TARGET=$(kubectl get pods -n $NAMESPACE --insecure-skip-tls-verify=true --token $TOKEN --server $APISERVER -o jsonpath="{.items[$R].metadata.name}")
